@@ -45,10 +45,18 @@
       />
     </div>
     <br />
-  <button class="btn btn-primary" style="margin-right:20px" type="submit" v-if="mostrar" v-on:click="!edicao? salvar(matricula) : editar(matricula)">Salvar</button>
+  <router-link to="/alunos"><button class="btn btn-primary" style="margin-right:20px" type="submit" 
+  v-if="mostrar" v-on:click="!edicao? salvar(matricula) : editar(matricula)">Salvar</button>
+  </router-link>
   <button class="btn btn-danger" v-if="mostrar" v-on:click="mostrar = false">Cancelar</button>
   </form>
-  <button class="btn btn-light" v-if="!mostrar" v-on:click="mostrar = true, edicao = false, matricula = {}">Matricular Aluno</button>
+  <button class="btn btn-light" v-if="!mostrar" 
+  v-on:click="mostrar = true, edicao = false, matricula = {}">Matricular Aluno</button>
+  <br/>
+  <router-link to="/"><button  v-if="!mostrar" style="margin-left:10px"
+  class="btn btn-danger btn-sm " v-on:click="matricula = {}">Sair</button>
+  </router-link>
+  <router-view/>
   <div>
     <table class="table table-striped">
       <thead>
@@ -90,7 +98,6 @@ let scopeAlunos = null;
 export default {
   name: "Alunos",
   props: {
-    msg: String,
   },
   components:{
   },
@@ -151,7 +158,6 @@ export default {
    var theEvent = evt || window.event;
    var key = theEvent.keyCode || theEvent.which;
    key = String.fromCharCode( key );
-   //var regex = /^[0-9.,]+$/;
    var regex = /^[0-9.]+$/;
    if( !regex.test(key) ) {
       theEvent.returnValue = false;

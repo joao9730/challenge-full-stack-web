@@ -28,8 +28,10 @@
       />
     </div>
     <br />
+    <button v-on:click="salvar(usuario)" class="btn btn-primary" style="margin-right:30px">Cadastrar</button>
+    <router-link to="/"><button class="btn btn-danger">Cancelar</button></router-link>
+  <router-view/>
   </form>
-    <button v-on:click="salvar(usuario)" class="btn btn-primary">Cadastrar</button>
 </template>
 
 <script>

@@ -20,14 +20,20 @@
     </div>
     <br />
   </form>
-    <button v-on:click="entrar(usuario)" class="btn btn-primary">Entrar</button>
+    <button v-on:click="entrar(usuario)" class="btn btn-primary btn-sm" style="margin-right:30px">Entrar</button>
+  <router-link to="/cadastro"><button class="btn btn-primary btn-sm">Cadastrar</button></router-link>
+  <router-view/>
 </template>
 
 <script>
 import axios from "axios";
+import { createApp } from 'vue';
+
+let scopeLogin = null;
 export default {
   name: "Login",
   props: {
+    isLoged: {}
   },
   data: () => {
     return {
@@ -41,17 +47,25 @@ export default {
   },
   methods: {
     entrar: (usuario) => {
-          axios.post(`https://localhost:44383/api/Usuario`, {
-              nome: usuario.nome,
-              login: usuario.login,
-              senha: usuario.senha,
-            })
+          axios.get(`https://localhost:44383/api/Usuario`)
             .then((resp) => {
-                console.log("resposta!", resp);
+              resp.data.forEach(u => {
+                if (u.login == usuario.login && u.senha == usuario.senha)
+                {
+                  createApp.$user = u;
+                  console.log("teste", createApp.$user);
+                  scopeLogin.$router.push('/alunos');
+                }
+              });
+              if(!createApp.$user)
+              {
+                alert("Usuário não cadastrado!")
+              }
             });
     },
   },
   created() {
+  scopeLogin = this;
   },
 };
 </script>
